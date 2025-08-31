@@ -14,13 +14,36 @@
 
               </div>
               <ul class="navbar-nav  justify-content-end">
-                  <li class="nav-item d-flex align-items-center">
-                      <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
+                  <li class="nav-item dropdown d-flex align-items-center">
+                      <a href="javascript:;"
+                          class="nav-link text-white font-weight-bold px-0 dropdown-toggle d-flex align-items-center"
+                          id="userMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                           <img src="{{ asset('assets/img/user-1.jpg') }}" alt="Profile" class="me-sm-1 rounded-circle"
                               style="width: 25px; height: 25px; object-fit: cover;">
                           <span class="d-sm-inline d-none">{{ Auth::user()->name }}</span>
                       </a>
+
+                      <ul class="dropdown-menu dropdown-menu-end shadow border-0 p-2" aria-labelledby="userMenu"
+                          style="min-width: 200px;">
+                          <li class="text-center">
+                              <img src="{{ asset('assets/img/user-1.jpg') }}" alt="Profile" class="rounded-circle mb-2"
+                                  style="width: 60px; height: 60px; object-fit: cover;">
+                              <div class="fw-bold">{{ Auth::user()->name }}</div>
+                          </li>
+                          <li>
+                              <hr class="dropdown-divider">
+                          </li>
+                          <li class="text-center">
+                              <form action="{{ route('logout') }}" method="POST" class="m-0">
+                                  @csrf
+                                  <button type="submit" class="dropdown-item text-danger fw-bold">
+                                      <i class="ti ti-logout me-2"></i> Logout
+                                  </button>
+                              </form>
+                          </li>
+                      </ul>
                   </li>
+
                   <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
                       <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
                           <div class="sidenav-toggler-inner">
