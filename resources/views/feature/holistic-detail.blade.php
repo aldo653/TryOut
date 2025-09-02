@@ -126,7 +126,7 @@
                                 <h6 class="mb-2 font-weight-bolder">Holistic Assessment</h6>
                                 <div class="d-flex">
                                     <form method="GET" action="" class="d-flex">
-                                        <input type="text" name="search" value="{{ request('search') }}"
+                                        <input type="text" name="searchholistic" value="{{ request('searchholistic') }}"
                                             class="form-control form-control-sm me-2"
                                             style="height: 30px; padding: 2px 8px; font-size: 0.8rem;"
                                             placeholder="Cari holistic...">

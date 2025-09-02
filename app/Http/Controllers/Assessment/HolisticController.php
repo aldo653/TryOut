@@ -110,7 +110,7 @@ class HolisticController extends Controller
         return response()->json($nilai_mhs);
     }
 
-    public function getDetail($id)
+    public function getDetail(Request $request, $id)
     {
         // ambil data mahasiswa sekali saja
         $mahasiswa = User::where('id', $id)
@@ -130,16 +130,38 @@ class HolisticController extends Controller
                 'kegiatan.nama_kegiatan as nama_kegiatan',
                 'kegiatan.poin_kegiatan as poin_kegiatan',
                 'kehadiran__jadwal.status as status'
-            )
-            ->get();
+            );
+        
+            
+        if($request->filled('search')){
+            $search = $request->search;
+            $details->where('users.name', 'like', "%{$search}%")
+                ->orWhere('quanty_byjadwals.deskripsi', 'like', "%{$search}%")
+                ->orWhere('kegiatan.nama_kegiatan', 'like', "%{$search}%")
+                ->orWhere('kegiatan.poin_kegiatan', 'like', "%{$search}%")
+                ->orWhere('kehadiran__jadwal.status', 'like', "%{$search}%");
+        }
+
+        $details = $details->get();
 
         $punishment = Pinalty::where('user_id', $id)
             ->join('master_pinalty_rewards as m', function ($join) {
                 $join->on('holistic.jenis', '=', 'm.jenis')
                     ->on('holistic.tipe', '=', 'm.tipe');
             })
-            ->select('holistic.*', 'm.poin')
-            ->get();
+            ->select('holistic.*', 'm.poin');
+
+        if($request->filled('searchholistic')){
+            $searchholistic = $request->searchholistic;
+            $punishment->where('holistic.deskripsi', 'like', "%{$searchholistic}%")
+                ->orWhere('holistic.deskripsi', 'like', "%{$searchholistic}%")
+                ->orWhere('holistic.jenis', 'like', "%{$searchholistic}%")
+                ->orWhere('holistic.tipe', 'like', "%{$searchholistic}%")
+                ->orWhere('holistic.tgl', 'like', "%{$searchholistic}%")
+                ->orWhere('m.poin', 'like', "%{$searchholistic}%");
+        }
+
+        $punishment = $punishment->get();
 
         $detail = [
             'mhs_name' => $mahasiswa->mhs_name ?? null,
