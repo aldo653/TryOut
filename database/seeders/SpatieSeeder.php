@@ -20,7 +20,11 @@ class SpatieSeeder extends Seeder
             'user_management',
             'role_management',
             'permission_management',
-            'assignment'
+            'assignment',
+            'assessment',
+            'master_jadwal',
+            'master_kegiatan', 
+            'master_pelanggaran',
         ];
 
         foreach ($permissions as $permission) {
@@ -31,7 +35,7 @@ class SpatieSeeder extends Seeder
         $adminRole->givePermissionTo($permissions);
 
         $userRole = Role::firstOrCreate(['name' => 'Pengajar']);
-        $userRole->givePermissionTo(['dashboard']);
+        $userRole->givePermissionTo(['dashboard', 'assessment']);
 
         $studentRole = Role::firstOrCreate(['name' => 'Mahasiswa']);
         $studentRole->givePermissionTo(['dashboard', 'assignment']);
