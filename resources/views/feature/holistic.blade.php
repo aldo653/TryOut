@@ -76,7 +76,7 @@
                                             -</b>
                                     </div>
                                     <div class="mb-2 text-center">
-                                        @if ($item->nilai_total >= 60 && $item->nilai_total <= 69)
+                                        @if ($item->nilai_total >= 25 && $item->nilai_total <= 50)
                                             <button class="btn btn-sm btn-outline-danger assign-btn w-60"
                                                 data-id="{{ $item->mhs_id }}" data-nim="{{ $item->nip_nim }}"
                                                 data-nama="{{ $item->mhs_name }}" data-tipe="SP1" data-bs-toggle="modal"
@@ -86,7 +86,7 @@
                                                 <span class="spinner-border spinner-border-sm d-none" role="status"
                                                     aria-hidden="true"></span>
                                             </button>
-                                        @elseif ($item->nilai_total >= 50 && $item->nilai_total <= 59)
+                                        @elseif ($item->nilai_total >= 4 && $item->nilai_total <= 24)
                                             <button class="btn btn-sm btn-outline-danger assign-btn w-60"
                                                 data-id="{{ $item->mhs_id }}" data-nim="{{ $item->nip_nim }}"
                                                 data-nama="{{ $item->mhs_name }}" data-tipe="SP2" data-bs-toggle="modal"
@@ -96,7 +96,7 @@
                                                 <span class="spinner-border spinner-border-sm d-none" role="status"
                                                     aria-hidden="true"></span>
                                             </button>
-                                        @elseif ($item->nilai_total < 50)
+                                        @elseif ($item->nilai_total < 3)
                                             <button class="btn btn-sm btn-outline-danger assign-btn w-60"
                                                 data-id="{{ $item->mhs_id }}" data-nim="{{ $item->nip_nim }}"
                                                 data-nama="{{ $item->mhs_name }}" data-tipe="SP3" data-bs-toggle="modal"
