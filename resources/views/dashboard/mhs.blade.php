@@ -143,7 +143,7 @@
                                                         </span>
                                                     </td>
                                                     <td class="align-middle text-center">
-                                                        <p class="text-xs text-secondary mb-0>{{ $sp->perihal }}</p>
+                                                        <p class="text-xs text-secondary mb-0">{{ $sp->perihal }}</p>
                                                     </td>
                                                 </tr>
                                             @empty
