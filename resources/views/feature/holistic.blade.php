@@ -124,23 +124,26 @@
         </div>
     </div>
 
-    <div class="modal fade" id="sp" tabindex="-1" aria-labelledby="sp" aria-hidden="true">
+    <div class="modal fade" id="sp" tabindex="-1" aria-labelledby="spLabel" aria-hidden="true">
         <div class="modal-dialog modal-md modal-dialog-centered">
             <div class="modal-content">
-                <form id="form-sp" method="POST" action="#">
+                <form id="form-sp" method="POST" action="{{ route('assessment.holistic.history.store') }}">
                     @csrf
+                    <input type="hidden" name="mhs_id" id="mhs_id">
+
                     <div class="modal-header">
-                        <h6 class="font-weight-bolder text-black mb-0">Surat Peringatan</h6>
+                        <h6 class="font-weight-bolder text-black mb-0" id="spLabel">Surat Peringatan</h6>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+
                     <div class="modal-body">
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="nim" class="form-label">NIM</label>
-                                    <input type="text" class="form-control" id="tipe" name="tipe"
-                                        style="height: 30px; padding: 2px 8px; font-size: 0.8rem;" placeholder="Tipe..."
-                                        readonly>
+                                    <label for="perihal" class="form-label">Perihal</label>
+                                    <input type="text" class="form-control" id="tipe" name="perihal"
+                                        style="height: 30px; padding: 2px 8px; font-size: 0.8rem;"
+                                        placeholder="Perihal..." required>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -152,71 +155,73 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="nim" class="form-label">NIM</label>
                                     <input type="text" class="form-control" id="nim" name="nim"
-                                        style="height: 30px; padding: 2px 8px; font-size: 0.8rem;" placeholder="NIM..."
-                                        readonly>
+                                        style="height: 30px; padding: 2px 8px; font-size: 0.8rem;" readonly>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="nip_nim" class="form-label">Nama Mahasiswa</label>
+                                    <label for="nama" class="form-label">Nama Mahasiswa</label>
                                     <input type="text" class="form-control" id="nama" name="nama"
-                                        style="height: 30px; padding: 2px 8px; font-size: 0.8rem;" placeholder="Nama..."
-                                        readonly>
+                                        style="height: 30px; padding: 2px 8px; font-size: 0.8rem;" readonly>
                                 </div>
                             </div>
                         </div>
+
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="nim" class="form-label">Alasan</label>
+                                    <label for="alasan" class="form-label">Alasan</label>
                                     <input type="text" class="form-control" id="alasan" name="alasan"
                                         style="height: 30px; padding: 2px 8px; font-size: 0.8rem;"
-                                        placeholder="Alasan..." required>
+                                        placeholder="Alasan (opsional)">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="nip_nim" class="form-label">Tenggat Waktu</label>
+                                    <label for="tenggat" class="form-label">Tenggat Waktu</label>
                                     <input type="date" class="form-control" id="tenggat" name="tenggat"
-                                        style="height: 30px; padding: 2px 8px; font-size: 0.8rem;"
-                                        placeholder="Tanggal..." required>
+                                        style="height: 30px; padding: 2px 8px; font-size: 0.8rem;" required>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-outline-secondary"
-                            style="height: 30px; padding: 0 10px;" data-bs-dismiss="modal"><i
-                                class="ti ti-x me-2"></i>Batal</button>
+                            style="height: 30px; padding: 0 10px;" data-bs-dismiss="modal">
+                            <i class="ti ti-x me-2"></i>Batal
+                        </button>
                         <button type="submit" class="btn btn-sm btn-outline-primary"
-                            style="height: 30px; padding: 0 10px;"><i class="ti ti-refresh me-2"></i>Generate</button>
+                            style="height: 30px; padding: 0 10px;">
+                            <i class="ti ti-refresh me-2"></i>Generate
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const modal = document.getElementById('sp');
             modal.addEventListener('show.bs.modal', function(event) {
                 let button = event.relatedTarget;
-                let id = button.getAttribute('data-id'); 
+                let id = button.getAttribute('data-id');
                 let nim = button.getAttribute('data-nim');
                 let nama = button.getAttribute('data-nama');
                 let tipe = button.getAttribute('data-tipe');
-
+                
+                modal.querySelector('#mhs_id').value = id;
                 modal.querySelector('#nim').value = nim;
                 modal.querySelector('#nama').value = nama;
                 modal.querySelector('#tipe').value = tipe;
-
-                let form = modal.querySelector('#form-sp');
-                form.action = `/pdf/sp1/${id}`;
             });
         });
     </script>

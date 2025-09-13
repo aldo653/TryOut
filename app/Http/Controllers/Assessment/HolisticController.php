@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Kehadiran_Jadwal;
 use App\Models\MasterPinaltyReward;
 use App\Models\Pinalty;
+use App\Models\RiwayatSpMhs;
 use App\Models\User;
+use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -45,7 +47,7 @@ class HolisticController extends Controller
                 'kegiatan.nama_kegiatan',
                 'kegiatan.poin_kegiatan'
             );
-            
+
         if ($request->filled('search')) {
             $search = $request->search;
             $nilai_mhs->where(function ($query) use ($search) {
@@ -131,9 +133,9 @@ class HolisticController extends Controller
                 'kegiatan.poin_kegiatan as poin_kegiatan',
                 'kehadiran__jadwal.status as status'
             );
-        
-            
-        if($request->filled('search')){
+
+
+        if ($request->filled('search')) {
             $search = $request->search;
             $details->where('users.name', 'like', "%{$search}%")
                 ->orWhere('quanty_byjadwals.deskripsi', 'like', "%{$search}%")
@@ -151,7 +153,7 @@ class HolisticController extends Controller
             })
             ->select('holistic.*', 'm.poin');
 
-        if($request->filled('searchholistic')){
+        if ($request->filled('searchholistic')) {
             $searchholistic = $request->searchholistic;
             $punishment->where('holistic.deskripsi', 'like', "%{$searchholistic}%")
                 ->orWhere('holistic.deskripsi', 'like', "%{$searchholistic}%")
@@ -212,5 +214,43 @@ class HolisticController extends Controller
 
         $pinalty->delete();
         return redirect()->back()->with('success', 'Data holistic assessment berhasil dihapus.');
+    }
+
+    public function store_spmhs(Request $request)
+    {
+        $request->validate([
+            'mhs_id'   => 'required|exists:users,id',
+            'no_surat' => 'required|string|max:255',
+            'tenggat'  => 'required|date',
+            'perihal'  => 'required|string|max:255',
+            'alasan'   => 'nullable|string',
+        ]);
+
+        $sp = RiwayatSpMhs::firstOrCreate(
+            [
+                'mhs_id'  => $request->mhs_id,
+                'perihal' => $request->perihal,
+            ],
+            [
+                'no_surat' => $request->no_surat,
+                'tenggat'  => $request->tenggat,
+                'alasan'   => $request->alasan,
+            ]
+        );
+
+        $mhs = User::findOrFail($request->mhs_id);
+
+        $data = [
+            'mhs'      => $mhs,
+            'tipe'     => $request->perihal,
+            'no_surat' => $request->no_surat,
+            'alasan'   => $request->alasan,
+            'tenggat'  => $request->tenggat,
+        ];
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.sp1', compact('mhs', 'data'))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->stream('Surat Peringatan 1 - ' . $mhs->name . '.pdf');
     }
 }

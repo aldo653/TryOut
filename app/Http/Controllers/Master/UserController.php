@@ -28,7 +28,6 @@ class UserController extends Controller
             'nama' => 'required|string|max:255',
             'nip_nim' => 'required|string|max:255|unique:users',
             'gender' => 'required|string',
-            'password' => 'required|string|min:8',
             'role' => 'required',
         ]);
 
@@ -36,7 +35,7 @@ class UserController extends Controller
             'name' => $request->nama,
             'nip_nim' => $request->nip_nim,
             'gender' => $request->gender,
-            'password' => bcrypt($request->password),
+            'password' => bcrypt($request->nip_nim),
         ]);
 
         // Assign roles if provided
@@ -63,13 +62,15 @@ class UserController extends Controller
             'nama' => 'required|string|max:255',
             'nip_nim' => 'required|string|max:255|unique:users,nip_nim,' . $user->id,
             'gender' => 'required|string',
-            'password' => 'nullable|string|min:8|confirmed',
+            'password' => 'nullable|string|min:8',
             'role' => 'required',
+            'status' => 'required|string',
         ]);
 
         $user->name = $request->nama;
         $user->nip_nim = $request->nip_nim;
         $user->gender = $request->gender;
+        $user->status = $request->status;
         if ($request->password) {
             $user->password = bcrypt($request->password);
         }

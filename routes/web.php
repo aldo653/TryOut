@@ -82,8 +82,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/assessment/holistic/detail/{id}', [HolisticController::class, 'getDetail'])->name('assessment.holistic.detail');
     Route::post('/assessment/holistic/store', [HolisticController::class, 'store'])->name('assessment.holistic.store');
     Route::delete('/assessment/holistic/delete/{id}', [HolisticController::class, 'destroy'])->name('assessment.holistic.destroy');
+    Route::post('/assessment/riwayatsp', [HolisticController::class, 'store_spmhs'])->name('assessment.holistic.history.store');
 
     //Pdf
     Route::get('/pdf/history/{id}', [HistoryPinaltyController::class, 'history'])->name('pdf.history');
     Route::post('/pdf/sp1/{id}', [SPController::class, 'sp1'])->name('pdf.sp1');
+    Route::get('/spmhs/pdf/{id}', [SPController::class, 'download'])->name('spmhs.download');
+    Route::get('/raport/download', [DashboardController::class, 'download_raport'])->name('raport.download');
+
+    //json
+    Route::get('/dashboard/json/{id}', [DashboardController::class, 'json'])->name('dashboard.json');
 });

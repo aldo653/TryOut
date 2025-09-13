@@ -66,6 +66,9 @@
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Role</th>
                                         <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Status</th>
+                                        <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
                                             Aksi</th>
                                     </tr>
@@ -112,6 +115,9 @@
                                             <td>
                                                 <p class="text-xs font-weight-bold mb-0">
                                                     {{ $user->getRoleNames()->first() }}</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs font-weight-bold mb-0">{{ $user->status }}</p>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <div class="d-inline-flex align-items-center">
@@ -192,7 +198,7 @@
                                     <select class="form-select form-select" name="gender"
                                         style="height: 30px; padding: 2px 8px; font-size: 0.8rem;">
                                         <option value="" disabled selected>Select Gender</option>
-                                        <option value="Laki-laki">Laki-Laki</option>
+                                        <option value="Laki-Laki">Laki-Laki</option>
                                         <option value="Perempuan">Perempuan</option>
                                     </select>
                                 </div>
@@ -209,11 +215,6 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="nip_nim" class="form-label">Password</label>
-                            <input type="text" class="form-control" id="password" name="password"
-                                style="height: 30px; padding: 2px 8px; font-size: 0.8rem;" placeholder="Password...">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -281,11 +282,32 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="nip_nim" class="form-label">Password</label>
-                            <input type="text" class="form-control" id="password" name="password"
-                                style="height: 30px; padding: 2px 8px; font-size: 0.8rem;" placeholder="Password...">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="status" class="form-label">Status</label>
+                                    <select class="form-select form-select" id="edit_status" name="status"
+                                        style="height: 30px; padding: 2px 8px; font-size: 0.8rem;">
+                                        <option value="" disabled selected>Select Status</option>
+                                        <option value="Active">Active</option>
+                                        <option value="Inactive">Inactive</option>
+                                        <option value="Lulus">Lulus</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="nip_nim" class="form-label">Password</label>
+                                    <input type="text" class="form-control" id="edit_password" name="password"
+                                        style="height: 30px; padding: 2px 8px; font-size: 0.8rem;"
+                                        placeholder="Password baru...">
+                                     <div class="form-text text-muted" style="font-size: 0.75rem;">
+                                        *Kosongkan jika tidak ingin mengganti password
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"
@@ -313,6 +335,7 @@
                     document.getElementById('edit_nama').value = data.name;
                     document.getElementById('edit_gender').value = data.gender;
                     document.getElementById('edit_nip_nim').value = data.nip_nim;
+                      document.getElementById('edit_status').value = data.status;
                     const roleSelect = document.getElementById('edit_role');
                     for (let option of roleSelect.options) {
                         if (option.value.toLowerCase() === data.roles[0].name.toLowerCase()) {
@@ -320,7 +343,6 @@
                             break;
                         }
                     }
-                    document.getElementById('password').value = data.password;
                     document.getElementById('edituserForm').action = `/user/update/${id}`;
                 })
                 .catch(err => console.error(err));
